@@ -1,0 +1,11 @@
+{
+  "name": "Prolog",
+  "year": 1972,
+  "tags": ["logic", "dyn_type"],
+  "links": [
+    {
+      "title": "SWI-Prolog implementation",
+      "url": "https://www.swi-prolog.org"
+    }
+  ]
+}

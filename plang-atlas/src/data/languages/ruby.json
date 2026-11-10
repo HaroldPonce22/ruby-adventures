@@ -1,6 +1,10 @@
 {
   "name": "Ruby",
-  "tags": ["oop", "dyn_type"],
+  "year": 1995,
+  "tags": [
+    "oop",
+    "dyn_type"
+  ],
   "links": [
     {
       "title": "Official home page",

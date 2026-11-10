@@ -1,6 +1,10 @@
 {
   "name": "Java",
-  "tags": ["oop", "static_type"],
+  "year": 1995,
+  "tags": [
+    "oop",
+    "static_type"
+  ],
   "links": [
     {
       "title": "Oracle implementation",
