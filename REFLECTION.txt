@@ -1,0 +1,56 @@
+Ruby Adventures – Reflection
+
+Overall my solutions are very close to Paul’s. Part 1 is close because the desugaring task had me removing the same sugar step by step, and in Parts 2 and 3 most of the differences are small choices, not entirely new approaches.
+Part 1: Desugaring
+
+- Block parameter name: Paul used |user| when desugaring map(&:email), and I used |x|. Similar
+  code, but Paul name says what the thing actually is, which reads better.
+
+- Operators: Paul wrote the string addition with explicit nested parentheses,
+  ((("You're invited to ").+(title)).+(" on ")).+(date). Mine chains the calls instead:
+  "You're invited to ".+(title).+(" on ").+(date). Both are left-associative, because each .+
+  is called on the result of the one before it. His version makes the grouping obvious to the
+  reader, mine is shorter.
+
+- What I learned: after taking all the sugar out, the code really does look like JavaScript.
+  self.mail(...), :to =>, map() { |x| x.email() } all show that in Ruby everything is a method
+  call on an object, even + and property access.
+
+Part 2: Going Loopless
+
+- list_movies is basically identical: map(&:movie).uniq.sort_by(&:year).map { ... }.
+
+- find_all_in_role: Paul did p.roles.map(&:name).include?(role_name). I used
+  person.roles.any? { |role| role.name == role_name }. Mine stops at the first match, the same
+  way the original loop used break, while his builds the full list of names first. The
+  assignment said not to worry about efficiency, so both are fine.
+
+- build_credits: Paul's main solution loops over role_order with flat_map and selects the
+  matching roles for each name. Mine does select, then sort_by with find_index, then map. My
+  version is actually the same as the "Alt solution" in his comments. His keeps the role_order
+  loop from the original code, mine flips it around and sorts the movie's roles instead.
+
+- What I learned: each loop pattern has a matching method. A loop that keeps some items is
+  select, a loop with a break that checks "is there one" is any?, skipping duplicates is uniq,
+  and building a new list is map.
+
+Part 3: Static Site Generator
+
+- New language: Paul added WOGL with a new "Esoteric" tag. I added Prolog (my Language
+  Excursion language) with a new "Logic programming" tag. I only had to change files in
+  src/data for it to show up on the site.
+
+- New property: we both added a year to the languages. Differences:
+  - Paul stored years as strings ("1995"), I stored them as numbers (1995). On the page they
+    look the same.
+  - Paul always prints "Year: ..." on the language page. I wrapped mine in
+    <% if lang.year? %>, the same way the template already checks lang.tags?, so a language
+    without a year just skips that line instead of printing an empty "Year:".
+
+- What I learned: this was the part where metaprogramming made sense to me. I added "year" to
+  a JSON file and lang.year (and even lang.year?) just existed in the template, without
+  writing any class. In Java I would have needed a class with a getYear() method, or a HashMap
+  with get("year").
+
+Overall the homework was fun, and part 3 was the most interesting because it showed what all
+the Ruby features from parts 1 and 2 are actually useful for.
